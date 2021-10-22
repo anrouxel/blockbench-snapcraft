@@ -52,7 +52,7 @@ parts:
       fi
       npm install
       npm i electron-packager
-      electron-packager . --overwrite --platform=linux --output=release-build \
+      npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
       mv $SNAPCRAFT_PART_INSTALL/$SNAPCRAFT_PROJECT_NAME-linux-* \
           $SNAPCRAFT_PART_INSTALL/electron
