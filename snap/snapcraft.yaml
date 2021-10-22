@@ -51,7 +51,7 @@ parts:
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy}"
       fi
       npm install
-      npm install electron electron-packager
+      npm i electron-packager
       electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
       mv $SNAPCRAFT_PART_INSTALL/$SNAPCRAFT_PROJECT_NAME-linux-* \
