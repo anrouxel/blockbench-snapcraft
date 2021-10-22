@@ -17,7 +17,7 @@ architectures:
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
-    command: $SNAP/electron/Blockbench
+    command: $SNAP/Blockbench
     plugs:
       - gsettings
       - opengl
@@ -54,8 +54,6 @@ parts:
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
-      mv $SNAPCRAFT_PART_INSTALL/$SNAPCRAFT_PROJECT_NAME-linux-* \
-          $SNAPCRAFT_PART_INSTALL/electron
     build-packages:
       - git
       - sed
