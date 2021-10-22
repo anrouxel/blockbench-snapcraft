@@ -36,6 +36,7 @@ apps:
 parts:
   blockbench-snapcraft:
     plugin: npm
+    npm-node-version: 14.18.1
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     override-pull: |
