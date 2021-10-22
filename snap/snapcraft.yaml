@@ -35,8 +35,7 @@ apps:
 
 parts:
   blockbench-snapcraft:
-    plugin: npm
-    npm-node-version: 14.18.1
+    plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     override-pull: |
@@ -57,3 +56,8 @@ parts:
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
       mv $SNAPCRAFT_PART_INSTALL/$SNAPCRAFT_PROJECT_NAME-linux-* \
           $SNAPCRAFT_PART_INSTALL/electron
+    build-packages:
+      - git
+      - sed
+    build-snaps:
+      - node/14/stable
