@@ -51,6 +51,8 @@ parts:
     source-type: git
     override-pull: |
       snapcraftctl pull
+      VERSION=$(git describe --tags 'git rev-list --tags --max-count=1')
+      git checkout "${VERSION}"
       snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
     build-environment:
       - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
@@ -77,10 +79,7 @@ parts:
     stage-packages:
       - libasound2
       - libgconf-2-4
-      - libnspr4
       - libnss3
       - libx11-xcb1
       - libxss1
       - libxtst6
-      - libglu1-mesa
-      - libunity9 # for badgeCount in dock
