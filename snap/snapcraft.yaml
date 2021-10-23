@@ -14,14 +14,20 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
+layout:
+  /usr/share/icons:
+    bind: $SNAP/gnome-platform/usr/share/icons
+  /usr/share/fonts:
+    bind: $SNAP/gnome-platform/usr/share/fonts
+  /usr/local/share/fonts:
+    bind: $SNAP_COMMON/fonts
+
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
-    command: electron/Blockbench --no-sandbox
+    command: $SNAP/electron/Blockbench --enable-features=UseOzonePlatform --ozone-platform=wayland --disable-dev-shm-usage --no-sandbox --disable-gpu
     environment:
-      DISABLE_WAYLAND: 1
-      TMPDIR: $XDG_RUNTIME_DIR
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libunity
+      GTK_USE_PORTAL: 0
     plugs:
       - gsettings
       - opengl
@@ -30,13 +36,14 @@ apps:
       - desktop-legacy
       - wayland
       - x11
-      - unity7
       - audio-playback
       - audio-record
       - browser-support
       - network
       - network-bind
       - pulseaudio
+      - process-control
+      - hardware-observe
 
 parts:
   blockbench-snapcraft:
@@ -46,6 +53,8 @@ parts:
     override-pull: |
       snapcraftctl pull
       snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
+    build-environment:
+      - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
     override-build: |
       set +u # core20 base does not allow unbound variables !
       # workaround for build.snapcraft.io builds
@@ -69,6 +78,7 @@ parts:
     stage-packages:
       - libasound2
       - libgconf-2-4
+      - libnspr4
       - libnss3
       - libx11-xcb1
       - libxss1
