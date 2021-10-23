@@ -25,7 +25,7 @@ layout:
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
-    command: $SNAP/electron/Blockbench --disable-gpu --no-sandbox
+    command: electron/Blockbench --disable-gpu --no-sandbox
     environment:
       GTK_USE_PORTAL: 0
     plugs:
