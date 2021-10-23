@@ -14,14 +14,6 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
-layout:
-  /usr/share/icons:
-    bind: $SNAP/gnome-platform/usr/share/icons
-  /usr/share/fonts:
-    bind: $SNAP/gnome-platform/usr/share/fonts
-  /usr/local/share/fonts:
-    bind: $SNAP_COMMON/fonts
-
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
