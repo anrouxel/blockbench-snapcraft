@@ -25,9 +25,11 @@ layout:
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
-    command: electron/Blockbench --disable-gpu --no-sandbox
+    command: electron/Blockbench --no-sandbox
     environment:
-      GTK_USE_PORTAL: 0
+      TMPDIR: $XDG_RUNTIME_DIR
+      DISABLE_WAYLAND: 1
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libunity
     plugs:
       - gsettings
       - opengl
@@ -44,6 +46,7 @@ apps:
       - pulseaudio
       - process-control
       - hardware-observe
+      - unity7
 
 parts:
   blockbench-snapcraft:
@@ -84,3 +87,5 @@ parts:
       - libxss1
       - libxtst6
       - libglu1-mesa
+      - libasound2
+      - libunity9 # for badgeCount in dock
