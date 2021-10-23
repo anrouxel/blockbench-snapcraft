@@ -51,8 +51,6 @@ parts:
     source-type: git
     override-pull: |
       snapcraftctl pull
-      VERSION=$(git describe --tags --max-count=1)
-      git checkout "${VERSION}"
       snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
     build-environment:
       - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
