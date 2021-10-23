@@ -32,6 +32,7 @@ apps:
       - browser-support
       - network
       - network-bind
+      - pulseaudio
 
 parts:
   blockbench-snapcraft:
@@ -61,3 +62,10 @@ parts:
       - sed
     build-snaps:
       - node/14/stable
+    stage-packages:
+      - libasound2
+      - libgconf-2-4
+      - libnss3
+      - libx11-xcb1
+      - libxss1
+      - libxtst6
