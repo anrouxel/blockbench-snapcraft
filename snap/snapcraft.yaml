@@ -81,3 +81,4 @@ parts:
       - libglu1-mesa
       - libasound2
       - libunity9 # for badgeCount in dock
+      - libcanberra-gtk-module
