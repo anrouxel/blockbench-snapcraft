@@ -14,32 +14,19 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
-layout:
-  /usr/share/icons:
-    bind: $SNAP/gnome-platform/usr/share/icons
-  /usr/share/fonts:
-    bind: $SNAP/gnome-platform/usr/share/fonts
-  /usr/local/share/fonts:
-    bind: $SNAP_COMMON/fonts
-
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
     command: electron/Blockbench --no-sandbox
     environment:
-      TMPDIR: $XDG_RUNTIME_DIR
       DISABLE_WAYLAND: 1
+      TMPDIR: $XDG_RUNTIME_DIR
       LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libunity
     plugs:
-      - gsettings
-      - opengl
-      - home
-      - desktop
-      - desktop-legacy
-      - wayland
-      - x11
       - audio-playback
+      - audio-record
       - browser-support
+      - home
       - network
       - network-bind
       - unity7
@@ -78,6 +65,7 @@ parts:
       - libasound2
       - libgconf-2-4
       - libnss3
+      - libunity9 # for badgeCount in dock
       - libx11-xcb1
       - libxss1
       - libxtst6
