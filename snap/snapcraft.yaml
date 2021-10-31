@@ -35,6 +35,8 @@ apps:
       - x11
       - opengl
       - gsettings
+      - desktop
+      - desktop-legacy
 
 parts:
   blockbench-snapcraft:
