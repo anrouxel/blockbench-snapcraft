@@ -31,6 +31,10 @@ apps:
       - network
       - network-bind
       - unity7
+      - wayland
+      - x11
+      - opengl
+      - gsettings
 
 parts:
   blockbench-snapcraft:
