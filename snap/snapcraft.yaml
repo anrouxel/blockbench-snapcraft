@@ -70,10 +70,23 @@ parts:
     build-snaps:
       - node/14/stable
     stage-packages:
-      - libasound2
-      - libgconf-2-4
-      - libnss3
       - libunity9 # for badgeCount in dock
       - libx11-xcb1
+      - ibus-gtk3
+      - fcitx-frontend-gtk3
+      - gvfs-libs
+      - libasound2
+      - libgconf-2-4
+      - libglib2.0-bin
+      - libgnome-keyring0
+      - libgbm1
+      - libgtk-3-0
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpcre3
+      - libpulse0
+      - libsecret-1-0
       - libxss1
       - libxtst6
+      - zlib1g
