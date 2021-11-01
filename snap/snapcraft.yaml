@@ -23,6 +23,7 @@ apps:
       DISABLE_WAYLAND: 1
       TMPDIR: $XDG_RUNTIME_DIR
       LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libunity
+      GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
     plugs:
       - audio-playback
       - audio-record
