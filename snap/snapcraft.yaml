@@ -15,6 +15,11 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
+plugs:
+  browser-sandbox:
+    interface: browser-support
+    allow-sandbox: true
+
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
@@ -71,7 +76,8 @@ parts:
     stage-packages:
       - libasound2
       - libgconf-2-4
-      - libnss3
       - libx11-xcb1
       - libxss1
       - libxtst6
+      - libnss3
+      - libnspr4
