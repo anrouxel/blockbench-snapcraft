@@ -31,7 +31,6 @@ apps:
       - network
       - network-bind
       - unity7
-      - wayland
       - x11
       - opengl
       - gsettings
@@ -70,23 +69,10 @@ parts:
     build-snaps:
       - node/14/stable
     stage-packages:
-      - libunity9 # for badgeCount in dock
-      - libx11-xcb1
-      - ibus-gtk3
-#      - fcitx-frontend-gtk3
-#      - gvfs-libs
       - libasound2
       - libgconf-2-4
-#      - libglib2.0-bin
-#      - libgbm1
-#      - libgtk-3-0
-#      - libnotify4
-#      - libnspr4
       - libnss3
-#      - libpcre3
-#      - libpulse0
-#      - libsecret-1-0
+      - libx11-xcb1
       - libxss1
       - libxtst6
-#      - zlib1g
       - libcanberra-gtk3-module
