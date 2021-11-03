@@ -75,4 +75,3 @@ parts:
       - libx11-xcb1
       - libxss1
       - libxtst6
-      - libcanberra-gtk3-module
