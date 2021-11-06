@@ -81,7 +81,7 @@ parts:
       - libnspr4
       - libgl1-mesa-glx
       - libglu1-mesa
-      - libImlib2
+      - libimlib2
       - giblib1
       
   cleanup:
