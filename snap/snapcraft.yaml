@@ -81,3 +81,16 @@ parts:
       - libnspr4
       - libgl1-mesa-glx
       - libglu1-mesa
+  cleanup:
+    after: [ blockbench-snapcraft ]
+    plugin: nil
+    build-snaps: [ gnome-3-38-2004 ]
+    override-prime: |
+      set -eux
+      cd /snap/gnome-3-38-2004/current
+      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
+      for CRUFT in bug lintian man; do
+        rm -rf $SNAPCRAFT_PRIME/usr/share/$CRUFT
+      done
+      find $SNAPCRAFT_PRIME/usr/share/doc/ -type f -not -name 'copyright' -delete
+      find $SNAPCRAFT_PRIME/usr/share -type d -empty -delete
