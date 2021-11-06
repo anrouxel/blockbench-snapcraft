@@ -23,7 +23,7 @@ architectures:
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
-    command: electron/Blockbench
+    command: electron/Blockbench --no-sandbox
     environment:
       DISABLE_WAYLAND: 1
       TMPDIR: $XDG_RUNTIME_DIR
