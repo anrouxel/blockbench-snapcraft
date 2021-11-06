@@ -81,6 +81,9 @@ parts:
       - libnspr4
       - libgl1-mesa-glx
       - libglu1-mesa
+      - libImlib2
+      - giblib
+      
   cleanup:
     after: [ blockbench-snapcraft ]
     plugin: nil
