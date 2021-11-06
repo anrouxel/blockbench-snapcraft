@@ -15,10 +15,10 @@ architectures:
   - build-on: armhf
   - build-on: amd64
 
-plugs:
-  browser-sandbox:
-    interface: browser-support
-    allow-sandbox: true
+#plugs:
+#  browser-sandbox:
+#    interface: browser-support
+#    allow-sandbox: true
 
 apps:
   blockbench-snapcraft:
@@ -81,3 +81,5 @@ parts:
       - libxtst6
       - libnss3
       - libnspr4
+      - libgl1-mesa-glx
+      - libglu1-mesa
