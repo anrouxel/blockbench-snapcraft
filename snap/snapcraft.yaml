@@ -27,14 +27,11 @@ apps:
     environment:
       DISABLE_WAYLAND: 1
       TMPDIR: $XDG_RUNTIME_DIR
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libunity
     plugs:
-      - audio-playback
-      - audio-record
       - browser-support
       - home
       - network
-      - network-bind
+#      - network-bind
       - unity7
       - x11
       - opengl
