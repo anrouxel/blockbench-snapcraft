@@ -82,6 +82,7 @@ parts:
       fi
       git checkout "$(git describe --tags)" -b latest
       npm install
+      npm install electron@13.5.2
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
