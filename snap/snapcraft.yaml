@@ -104,4 +104,4 @@ parts:
       - libuuid1
       - libsecret-1-0
       - giblib1
-      - imlib2
+      - libimlib2
