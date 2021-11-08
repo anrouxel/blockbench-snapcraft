@@ -15,30 +15,51 @@ architectures:
 #  - build-on: armhf
   - build-on: amd64
 
-#plugs:
+plugs:
 #  browser-sandbox:
 #    interface: browser-support
 #    allow-sandbox: true
+  gnome-3-38-2004:
+    interface: content
+    target: $SNAP/gnome-platform
+    default-provider: gnome-3-38-2004
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
 
 apps:
   blockbench-snapcraft:
     extensions: [gnome-3-38]
     command: electron/Blockbench --no-sandbox
     environment:
-      DISABLE_WAYLAND: 1
+      DISABLE_WAYLAND: '1'
       TMPDIR: $XDG_RUNTIME_DIR
+      PATH: $SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH
+      SNAP_DESKTOP_RUNTIME: $SNAP/gnome-platform
+      LD_LIBRARY_PATH: $SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu
     plugs:
-      - browser-support
-      - home
-      - network
-      - network-bind
-      - pulseaudio
-      - unity7
-      - x11
-      - opengl
-      - gsettings
       - desktop
       - desktop-legacy
+      - home
+      - x11
+      - wayland
+      - unity7
+      - browser-support
+      - network
+      - gsettings
+      - audio-playback
+      - pulseaudio
+      - opengl
 
 parts:
   blockbench-snapcraft:
@@ -72,28 +93,12 @@ parts:
     build-snaps:
       - node/14/stable
     stage-packages:
-      - libasound2
-      - libgconf-2-4
-      - libx11-xcb1
+      - libgtk-3-0
+      - libnotify4
+      - libnss3
       - libxss1
       - libxtst6
-      - libnss3
-      - libnspr4
-      - libgl1-mesa-glx
-      - libglu1-mesa
-      - libimlib2
-      - giblib1
-      
-  cleanup:
-    after: [ blockbench-snapcraft ]
-    plugin: nil
-    build-snaps: [ gnome-3-38-2004 ]
-    override-prime: |
-      set -eux
-      cd /snap/gnome-3-38-2004/current
-      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
-      for CRUFT in bug lintian man; do
-        rm -rf $SNAPCRAFT_PRIME/usr/share/$CRUFT
-      done
-      find $SNAPCRAFT_PRIME/usr/share/doc/ -type f -not -name 'copyright' -delete
-      find $SNAPCRAFT_PRIME/usr/share -type d -empty -delete
+      - xdg-utils
+      - libatspi2.0-0
+      - libuuid1
+      - libsecret-1-0
