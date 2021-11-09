@@ -101,3 +101,12 @@ parts:
       - libx11-xcb-dev
       - libxkbcommon-dev
       - libxkbcommon-x11-dev
+
+  cleanup:
+    after: [blockbench-snapcraft]
+    plugin: nil
+    build-snaps: [ gnome-3-38-2004 ]
+    override-prime: |
+      set -eux
+      cd /snap/gnome-3-38-2004/current
+      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
