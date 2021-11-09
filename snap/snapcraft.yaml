@@ -94,6 +94,8 @@ parts:
       - libx11-xcb-dev
       - libxkbcommon-dev
       - libxkbcommon-x11-dev
+      - libimlib2
+      - giblib1
 
   cleanup:
     after: [blockbench-snapcraft]
