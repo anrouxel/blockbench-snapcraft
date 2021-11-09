@@ -38,7 +38,16 @@ apps:
       - pulseaudio
 
 parts:
+  libxkbcommon-x11-0:
+    plugin: nil
+    stage-packages:
+      - libxkbcommon-x11-0
+    prime:
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon*.so*
+      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon-x11*.so*
+      
   blockbench-snapcraft:
+    after: [libxkbcommon-x11-0]
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
@@ -58,7 +67,6 @@ parts:
       fi
       git checkout "$(git describe --tags)" -b latest
       npm install
-      npm install electron@13.5.2
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $SNAPCRAFT_PART_INSTALL/
@@ -71,13 +79,25 @@ parts:
       - node/14/stable
     stage-packages:
       - libgtk-3-0
-      - libnotify4
-      - libnss3
-      - libxss1
-      - libxtst6
       - xdg-utils
       - libatspi2.0-0
       - libuuid1
       - libsecret-1-0
       - giblib1
       - libimlib2
+      - libasound2
+      - libgconf2-4
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpcre3
+      - libpulse0
+      - libxss1
+      - libxtst6
+      - libpng++-dev
+      - libx11-dev
+      - libxtst-dev
+      - libxt-dev
+      - libx11-xcb-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
