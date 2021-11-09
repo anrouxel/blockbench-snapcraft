@@ -78,15 +78,8 @@ parts:
     build-snaps:
       - node/14/stable
     stage-packages:
-      - libgconf2-4
-      - libgtk-3-0
-      - xdg-utils
-      - libatspi2.0-0
-      - libuuid1
-      - libsecret-1-0
-      - giblib1
-      - libimlib2
       - libasound2
+      - libgconf2-4
       - libnotify4
       - libnspr4
       - libnss3
