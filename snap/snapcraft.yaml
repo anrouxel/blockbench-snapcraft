@@ -87,6 +87,13 @@ parts:
       - libpulse0
       - libxss1
       - libxtst6
+      - libpng++-dev
+      - libx11-dev
+      - libxtst-dev
+      - libxt-dev
+      - libx11-xcb-dev
+      - libxkbcommon-dev
+      - libxkbcommon-x11-dev
 
   cleanup:
     after: [blockbench-snapcraft]
