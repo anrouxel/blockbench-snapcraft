@@ -121,9 +121,9 @@ parts:
 
   gnome-platform-empty-dirs:
     after: [blockbench-snapcraft]
-      plugin: nil
-      override-build: |
-        mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/themes" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/icons" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/sounds" mkdir $SNAPCRAFT_PART_INSTALL/gnome-platform
+    plugin: nil
+    override-build: |
+      mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/themes" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/icons" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/sounds" mkdir $SNAPCRAFT_PART_INSTALL/gnome-platform
 
   cleanup:
     after: [gnome-platform-empty-dirs]
