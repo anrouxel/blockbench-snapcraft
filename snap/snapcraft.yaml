@@ -59,6 +59,7 @@ apps:
       - network
       - gsettings
       - pulseaudio
+      - audio-playback
 
 parts:
   libxkbcommon-x11-0:
