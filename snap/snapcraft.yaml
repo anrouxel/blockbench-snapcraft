@@ -118,8 +118,14 @@ parts:
       - libxfixes3
       - scrot
 
-  cleanup:
+  gnome-platform-empty-dirs:
     after: [blockbench-snapcraft]
+      plugin: nil
+      override-build: |
+        mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/themes" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/icons" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/sounds" mkdir $SNAPCRAFT_PART_INSTALL/gnome-platform
+
+  cleanup:
+    after: [gnome-platform-empty-dirs]
     plugin: nil
     build-snaps: [ gnome-3-38-2004 ]
     override-prime: |
