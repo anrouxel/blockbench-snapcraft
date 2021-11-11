@@ -15,24 +15,6 @@ architectures:
 #  - build-on: armhf
   - build-on: amd64
 
-plugs:
-  gnome-3-38-2004:
-    interface: content
-    target: $SNAP/gnome-platform
-    default-provider: gnome-3-38-2004
-  gtk-3-themes:
-    interface: content
-    target: $SNAP/data-dir/themes
-    default-provider: gtk-common-themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
-
 layout:
   /usr/lib/x86_64-linux-gnu/imlib2:
     bind: $SNAP/usr/lib/x86_64-linux-gnu/imlib2
@@ -109,18 +91,3 @@ parts:
       - libxcursor1
       - libxfixes3
       - scrot
-
-  gnome-platform-empty-dirs:
-    after: [blockbench-snapcraft]
-    plugin: nil
-    override-build: |
-      mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/themes" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/icons" mkdir -p "$SNAPCRAFT_PART_INSTALL/data-dir/sounds" mkdir $SNAPCRAFT_PART_INSTALL/gnome-platform
-
-  cleanup:
-    after: [gnome-platform-empty-dirs]
-    plugin: nil
-    build-snaps: [ gnome-3-38-2004 ]
-    override-prime: |
-      set -eux
-      cd /snap/gnome-3-38-2004/current
-      find . -type f,l -exec rm -f $SNAPCRAFT_PRIME/{} \;
