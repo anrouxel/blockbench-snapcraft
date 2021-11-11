@@ -78,24 +78,17 @@ parts:
     build-snaps:
       - node/14/stable
     stage-packages:
-      - libasound2
-      - libgconf-2-4
+      - libgtk-3-0
       - libnotify4
-      - libnspr4
       - libnss3
-      - libpcre3
-      - libpulse0
       - libxss1
       - libxtst6
-      - libpng++-dev
-      - libx11-dev
-      - libxtst-dev
-      - libxt-dev
-      - libx11-xcb-dev
-      - libxkbcommon-dev
-      - libxkbcommon-x11-dev
-      - libimlib2
+      - xdg-utils
+      - libatspi2.0-0
+      - libuuid1
+      - libsecret-1-0
       - giblib1
+      - libimlib2
 
   cleanup:
     after: [blockbench-snapcraft]
