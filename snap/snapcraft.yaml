@@ -87,8 +87,13 @@ parts:
       - libatspi2.0-0
       - libuuid1
       - libsecret-1-0
+      - libnspr4
       - giblib1
       - libimlib2
+      - libx11-6
+      - libxcursor1
+      - libxfixes3
+      - scrot
 
   cleanup:
     after: [blockbench-snapcraft]
