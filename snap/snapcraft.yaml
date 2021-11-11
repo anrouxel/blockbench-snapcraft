@@ -11,8 +11,6 @@ confinement: strict
 adopt-info: blockbench-snapcraft
 
 architectures:
-#  - build-on: arm64
-#  - build-on: armhf
   - build-on: amd64
 
 layout:
