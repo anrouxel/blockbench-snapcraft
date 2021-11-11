@@ -61,17 +61,8 @@ apps:
       - pulseaudio
       - audio-playback
 
-parts:
-  libxkbcommon-x11-0:
-    plugin: nil
-    stage-packages:
-      - libxkbcommon-x11-0
-    prime:
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon*.so*
-      - usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libxkbcommon-x11*.so*
-      
+parts:      
   blockbench-snapcraft:
-    after: [libxkbcommon-x11-0]
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
