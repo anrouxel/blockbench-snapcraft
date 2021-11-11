@@ -38,10 +38,11 @@ apps:
     extensions: [gnome-3-38]
     command: electron/Blockbench --no-sandbox
     environment:
+      DISABLE_WAYLAND: '1'
       TMPDIR: $XDG_RUNTIME_DIR
-      GSETTINGS_SCHEMA_DIR: $SNAP/usr/share/glib-2.0/schemas
-      XDG_CURRENT_DESKTOP: Unity
-      DISABLE_WAYLAND: 1
+      PATH: '$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH'
+      SNAP_DESKTOP_RUNTIME: $SNAP/gnome-platform
+      LD_LIBRARY_PATH: '$SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu'
     plugs:
       - desktop
       - desktop-legacy
