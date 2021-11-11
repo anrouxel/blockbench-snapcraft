@@ -16,8 +16,8 @@ architectures:
   - build-on: amd64
 
 layout:
-  /usr/lib/x86_64-linux-gnu/imlib2:
-    bind: $SNAP/usr/lib/x86_64-linux-gnu/imlib2
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/imlib2:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/imlib2
 
 apps:
   blockbench-snapcraft:
@@ -27,7 +27,7 @@ apps:
       DISABLE_WAYLAND: '1'
       TMPDIR: $XDG_RUNTIME_DIR
       PATH: '$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH'
-      LD_LIBRARY_PATH: '$SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu'
+      LD_LIBRARY_PATH: '$SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET'
     plugs:
       - desktop
       - desktop-legacy
