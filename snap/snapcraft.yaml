@@ -88,3 +88,6 @@ parts:
       - libxcursor1
       - libxfixes3
       - scrot
+      - libasound2
+      - libgconf-2-4
+      - libunity9
