@@ -19,7 +19,7 @@ layout:
 
 apps:
   blockbench-snapcraft:
-    extensions: [gnome-3-42]
+    extensions: [gnome-42]
     command: electron/Blockbench --no-sandbox
     environment:
       DISABLE_WAYLAND: '1'
