@@ -4,7 +4,7 @@ license: GPL-3.0
 summary: Blockbench - A boxy 3D model editor
 description: |
   Blockbench - A boxy 3D model editor
-base: core20
+base: core22
 grade: stable
 confinement: strict
 
@@ -14,8 +14,8 @@ architectures:
   - build-on: amd64
 
 layout:
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/imlib2:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/imlib2
+  /usr/lib/$CRAFT_ARCH_TRIPLET/imlib2:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/imlib2
 
 apps:
   blockbench-snapcraft:
@@ -42,14 +42,15 @@ apps:
 
 parts:      
   blockbench-snapcraft:
-    plugin: nil
+    plugin: npm
+    build-snaps: [node/16/stable]
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version "$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
+      craftctl default
+      craftctl set version="$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
     build-environment:
-      - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
+      - PATH: "$PATH:$CRAFT_PART_BUILD/node_modules/.bin"
     override-build: |
       set +u # core20 base does not allow unbound variables !
       # workaround for build.snapcraft.io builds
@@ -63,14 +64,12 @@ parts:
       npm install
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
-          --prune=true --out $SNAPCRAFT_PART_INSTALL/
-      mv $SNAPCRAFT_PART_INSTALL/Blockbench-linux-* \
-          $SNAPCRAFT_PART_INSTALL/electron
+          --prune=true --out $CRAFT_PART_INSTALL/
+      mv $CRAFT_PART_INSTALL/Blockbench-linux-* \
+          $CRAFT_PART_INSTALL/electron
     build-packages:
       - git
       - sed
-    build-snaps:
-      - node/14/stable
     stage-packages:
       - libgtk-3-0
       - libnotify4
