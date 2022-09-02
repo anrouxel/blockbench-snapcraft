@@ -48,7 +48,7 @@ parts:
     override-pull: |
       craftctl default
       git checkout "$(git describe --tags `git rev-list --tags --max-count=1`)" -b latest
-      craftctl set version="$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
+      craftctl set version="$(git describe --tags `git rev-list --tags --max-count=1`)"
     build-environment:
       - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
     override-build: |
