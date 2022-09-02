@@ -42,13 +42,30 @@ apps:
 
 parts:      
   blockbench-snapcraft:
-    plugin: npm
+    plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     override-pull: |
       craftctl default
       git checkout "$(git describe --tags `git rev-list --tags --max-count=1`)" -b latest
       craftctl set version="$(git describe --tags | sed 's/v//' | sed "s/-g/%/"  | cut -d "%" -f1)"
+    build-environment:
+      - PATH: "$PATH:$SNAPCRAFT_PART_BUILD/node_modules/.bin"
+    override-build: |
+      set +u # core20 base does not allow unbound variables !
+      # workaround for build.snapcraft.io builds
+      # https://bugs.launchpad.net/bugs/1886861
+      if [ -n "$http_proxy" ]; then
+        export ELECTRON_GET_USE_PROXY=1
+        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy}"
+        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy}"
+      fi
+      npm install
+      npm i electron-packager
+      npx electron-packager . --overwrite --platform=linux --output=release-build \
+          --prune=true --out $CRAFT_PART_INSTALL/
+      mv $CRAFT_PART_INSTALL/Blockbench-linux-* \
+          $CRAFT_PART_INSTALL/electron
     build-packages:
       - git
       - sed
