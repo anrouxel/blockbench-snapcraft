@@ -67,9 +67,11 @@ parts:
       cd $CRAFT_PART_INSTALL
       mv Blockbench-linux-* Blockbench
       ls -l Blockbench/
+      tree $CRAFT_PART_INSTALL/
     build-packages:
       - git
       - sed
+      - tree
     build-snaps:
       - node/14/stable
     stage-packages:
