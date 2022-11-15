@@ -21,7 +21,7 @@ layout:
 apps:
   blockbench-snapcraft:
     extensions: [gnome]
-    command: Blockbench/Blockbench --no-sandbox
+    command: $SNAP/Blockbench/Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
       PATH: '$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH'
