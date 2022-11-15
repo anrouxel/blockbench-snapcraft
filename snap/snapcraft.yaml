@@ -66,6 +66,7 @@ parts:
           --prune=true --out $CRAFT_PART_INSTALL/
       cd $CRAFT_PART_INSTALL
       mv Blockbench-linux-* Blockbench
+      ls -l Blockbench/
     build-packages:
       - git
       - sed
