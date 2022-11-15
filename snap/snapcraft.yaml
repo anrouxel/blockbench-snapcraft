@@ -21,7 +21,7 @@ layout:
 apps:
   blockbench-snapcraft:
     extensions: [gnome]
-    command: $SNAP/Blockbench/Blockbench --no-sandbox
+    command: electron/Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
       PATH: '$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH'
@@ -65,9 +65,7 @@ parts:
       npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $CRAFT_PART_INSTALL/
       cd $CRAFT_PART_INSTALL
-      mv Blockbench-linux-* Blockbench
-      ls -l Blockbench/
-      tree $CRAFT_PART_INSTALL/
+      mv Blockbench-linux-* electron
     build-packages:
       - git
       - sed
