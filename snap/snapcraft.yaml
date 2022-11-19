@@ -64,8 +64,9 @@ parts:
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
           --prune=true --out $CRAFT_PART_INSTALL/
-      mv $CRAFT_PART_INSTALL/Blockbench-linux-* \
-          $CRAFT_PART_INSTALL/electron
+      cd $CRAFT_PART_INSTALL
+      mkdir electron
+      mv Blockbench-linux-*/* electron/
     build-packages:
       - git
       - sed
