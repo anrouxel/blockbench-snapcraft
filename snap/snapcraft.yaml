@@ -70,7 +70,6 @@ parts:
     build-packages:
       - git
       - sed
-      - tree
     build-snaps:
       - node/14/stable
     stage-packages:
