@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fetch release version
         run: |
-          VERSION=$(git ls-remote --tags https://github.com/JannisX11/blockbench.git | awk '{print $2}' | grep -v '{}' | grep -v '\^{}' | cut -d '/' -f 3 | sort -V | tail -1 | sed 's/^v//')
+          VERSION=$(git ls-remote --tags https://github.com/JannisX11/blockbench.git | tail --lines=1 | cut --delimiter='/' --fields=3)
           sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
       - name: Check for modified files
         id: git-check
