@@ -45,6 +45,9 @@ parts:
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
+    override-pull: |
+      craftctl default
+      git checkout "$SNAPCRAFT_PROJECT_VERSION" -b latest
     build-environment:
       - PATH: "$PATH:$CRAFT_PART_BUILD/node_modules/.bin"
     override-build: |
