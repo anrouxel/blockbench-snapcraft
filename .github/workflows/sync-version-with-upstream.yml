@@ -11,12 +11,12 @@ on:
 jobs:
   sync-version:
     name: "Update snapcraft.yaml"
-    environment: "Candidate Branch"
+    environment: "Stable Branch"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fetch release version
         run: |
           TAGS=$(git ls-remote --tags https://github.com/JannisX11/blockbench.git | awk '{print $2}' | grep -v '{}' | grep -v '\^{}' | cut -d '/' -f 3)
