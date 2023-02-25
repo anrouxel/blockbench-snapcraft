@@ -45,5 +45,5 @@ jobs:
       contents: read
       issues: write
     secrets:
-      SNAP_STORE_CANDIDATE: ${{ secrets.STORE_LOGIN }}
+      STORE_LOGIN: ${{ secrets.STORE_LOGIN }}
     uses: ./.github/workflows/snap-store-publish-to-stable.yml
