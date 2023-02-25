@@ -4,6 +4,13 @@ on:
   # Run the workflow each time new commits are pushed to the candidate branch. 
   push:
     branches: [ "main" ]
+  # Allow the workflow to be started manually from the Actions tab.
+  workflow_dispatch:
+  # Allow the workflow to be started by another workflow.
+  workflow_call:
+    secrets:
+      SNAP_STORE_CANDIDATE:
+        required: true
 
 jobs:
   build:
