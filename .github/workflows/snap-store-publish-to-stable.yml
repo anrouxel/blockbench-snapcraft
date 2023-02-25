@@ -6,7 +6,7 @@ on:
   # Allow the workflow to be started by another workflow.
   workflow_call:
     secrets:
-      SNAP_STORE_CANDIDATE:
+      STORE_LOGIN:
         required: true
 
 # Permissions for GITHUB_TOKEN
