@@ -7,8 +7,8 @@ description: |
 base: core22
 grade: stable
 confinement: strict
-
 adopt-info: blockbench-snapcraft
+version: 4.6.0
 
 architectures:
   - build-on: amd64
@@ -45,10 +45,6 @@ parts:
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
-    override-pull: |
-      craftctl default
-      git checkout "$(git describe --tags `git rev-list --tags --max-count=1`)" -b latest
-      craftctl set version="$(git describe --tags `git rev-list --tags --max-count=1`)"
     build-environment:
       - PATH: "$PATH:$CRAFT_PART_BUILD/node_modules/.bin"
     override-build: |
