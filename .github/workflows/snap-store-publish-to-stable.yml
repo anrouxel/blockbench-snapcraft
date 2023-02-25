@@ -25,6 +25,8 @@ env:
 
 jobs:
   build:
+    name: "Build and publish snap"
+    environment: "Candidate Branch"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
