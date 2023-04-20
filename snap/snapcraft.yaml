@@ -8,7 +8,7 @@ base: core22
 grade: stable
 confinement: strict
 adopt-info: blockbench-snapcraft
-version: v4.7.0-beta.3
+version: 4.7.0
 
 architectures:
   - build-on: amd64
