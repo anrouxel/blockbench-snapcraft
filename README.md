@@ -1,7 +1,6 @@
 <h1 align="center">
-  <img src="https://avatars1.githubusercontent.com/u/29598503?v=3&s=256" alt="[Project]">
+  <img src="blockbench_logo_text_black.svg" alt="[Project]">
   <br />
-  Blockbench
 </h1>
 
 <p align="center"><b>This is the snap for Blockbench</b>, It is a community-maintained package to easily install Blockbench on Ubuntu, Fedora, Debian and other major Linux distributions. It is available in the Snap Store, Ubuntu Software, and a number of other applications.</p>
