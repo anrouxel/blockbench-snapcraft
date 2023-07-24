@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="blockbench_logo_text_black.svg" alt="[Project]">
+  <img src="img/blockbench_logo_text_black.svg" alt="[Project]">
   <br />
 </h1>
 
