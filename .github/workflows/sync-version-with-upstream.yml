@@ -58,4 +58,4 @@ jobs:
       STORE_LOGIN: ${{ secrets.STORE_LOGIN }}
     uses: ./.github/workflows/snap-store-publish.yml
     with:
-      channel: ${{ needs.sync-version.outputs.channel }}
+      CHANNEL: ${{ needs.sync-version.outputs.channel }}
