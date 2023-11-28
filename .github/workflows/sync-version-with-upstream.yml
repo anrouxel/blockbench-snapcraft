@@ -20,9 +20,17 @@ jobs:
       - name: Fetch release version
         run: |
           VERSION=$(
-            curl -sL https://api.github.com/repos/JannisX11/blockbench/releases | 
-            jq .  | grep tag_name | grep -v beta | head -n 1 | cut -d'"' -f4
+            curl -sL https://api.github.com/repos/JannisX11/blockbench/releases | jq '[.[]|{tag_name: .tag_name}][0].tag_name' | tr -d '"'
           )
+          # IS BETA (true/false)
+          CHANNEL=$(
+            if [[ $VERSION == *"beta"* ]]; then
+              echo "beta"
+            else
+              echo "stable"
+            fi
+          )
+
           sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
       - name: Check for modified files
         id: git-check
@@ -48,4 +56,6 @@ jobs:
       issues: write
     secrets:
       STORE_LOGIN: ${{ secrets.STORE_LOGIN }}
-    uses: ./.github/workflows/snap-store-publish-to-stable.yml
+    uses: ./.github/workflows/snap-store-publish.yml
+    with:
+      channel: ${{ needs.sync-version.outputs.channel }}

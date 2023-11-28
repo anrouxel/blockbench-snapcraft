@@ -1,10 +1,23 @@
-name: 📦 Publish to stable
+name: 📦 Publish snap
 
 on:
   # Allow the workflow to be started manually from the Actions tab.
   workflow_dispatch:
+    inputs:
+      CHANNEL:
+        type: string
+        required: true
+        default: 'stable'
+        description: 'The channel to release to'
+  
   # Allow the workflow to be started by another workflow.
   workflow_call:
+    inputs:
+      CHANNEL:
+        type: string
+        required: true
+        default: 'stable'
+        description: 'The channel to release to'
     secrets:
       STORE_LOGIN:
         required: true
@@ -40,4 +53,4 @@ jobs:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
       with:
         snap: ${{ steps.build.outputs.snap }}
-        release: stable
+        release: ${{ inputs.CHANNEL }}
