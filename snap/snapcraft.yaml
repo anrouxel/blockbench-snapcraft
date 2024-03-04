@@ -4,7 +4,7 @@ license: GPL-3.0
 summary: Blockbench - A boxy 3D model editor
 description: |
   Blockbench - A boxy 3D model editor
-base: core22
+base: core24
 grade: stable
 confinement: strict
 adopt-info: blockbench-snapcraft
