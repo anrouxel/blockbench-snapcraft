@@ -1,14 +1,16 @@
 name: blockbench-snapcraft
-icon: snap/gui/blockbench_logo.png
-license: GPL-3.0
+version: v4.10.0
 summary: Blockbench - A boxy 3D model editor
 description: |
   Blockbench - A boxy 3D model editor
+icon: snap/gui/blockbench_logo.png
+license: GPL-3.0
+
 base: core22
 grade: stable
 confinement: strict
 adopt-info: blockbench-snapcraft
-version: v4.10.0
+compression: lzo
 
 architectures:
   - build-on: amd64
@@ -17,6 +19,18 @@ architectures:
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET/imlib2:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/imlib2
+  /usr/share/drirc.d:
+    bind: $SNAP/usr/share/drirc.d
+  /usr/lib/$CRAFT_ARCH_TRIPLET/dri:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/dri
+  /usr/share/vulkan:
+    bind: $SNAP/usr/share/vulkan
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
+    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
 
 apps:
   blockbench-snapcraft:
@@ -24,8 +38,6 @@ apps:
     command: electron/Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-      PATH: '$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH'
-      LD_LIBRARY_PATH: '$SNAP_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/$CRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET:$LD_LIBRARY_PATH:$SNAP/lib:$SNAP/usr/lib:$SNAP/lib/$CRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET'
     plugs:
       - desktop
       - desktop-legacy
@@ -40,7 +52,17 @@ apps:
       - pulseaudio
       - audio-playback
 
-parts:      
+parts:
+  libs:
+    plugin: nil
+    stage-packages:
+      - giblib1
+      - libimlib2
+      - libspeechd2
+      - mesa-va-drivers
+      - mesa-vulkan-drivers
+      - vulkan-tools
+
   blockbench-snapcraft:
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
@@ -70,24 +92,4 @@ parts:
       - git
       - sed
     build-snaps:
-      - node/14/stable
-    stage-packages:
-      - libgtk-3-0
-      - libnotify4
-      - libnss3
-      - libxss1
-      - libxtst6
-      - xdg-utils
-      - libatspi2.0-0
-      - libuuid1
-      - libsecret-1-0
-      - libnspr4
-      - giblib1
-      - libimlib2
-      - libx11-6
-      - libxcursor1
-      - libxfixes3
-      - scrot
-      - libasound2
-      - libgconf-2-4
-      - libunity9
+      - node/20/stable
