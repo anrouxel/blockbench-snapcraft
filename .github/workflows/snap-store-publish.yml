@@ -19,7 +19,7 @@ on:
         default: 'stable'
         description: 'The channel to release to'
     secrets:
-      STORE_LOGIN:
+      SNAPCRAFT_STORE_CREDENTIALS:
         required: true
 
 # Permissions for GITHUB_TOKEN
