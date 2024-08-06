@@ -3,7 +3,7 @@ name: Release
 on:
   # Run the workflow each time new commits are pushed to the candidate branch. 
   push:
-    branches: [ "candidate" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 concurrency:
@@ -27,15 +27,15 @@ jobs:
         uses: snapcrafters/ci/get-architectures@main
 
   release:
-    name: 🚢 Release to latest/candidate
+    name: 🚢 Release to latest/edge
     needs: get-architectures
     runs-on: ubuntu-latest
-    environment: "Candidate Branch"
+    environment: "Edge Branch"
     strategy:
       matrix:
         architecture: ${{ fromJSON(needs.get-architectures.outputs.architectures-list) }}
     steps:
-      - name: 🚢 Release to latest/candidate
+      - name: 🚢 Release to latest/edge
         uses: snapcrafters/ci/release-to-candidate@main
         with:
           architecture: ${{ matrix.architecture }}
@@ -46,7 +46,7 @@ jobs:
   call-for-testing:
     name: 📣 Create call for testing
     needs: [release, get-architectures]
-    environment: "Candidate Branch"
+    environment: "Edge Branch"
     runs-on: ubuntu-latest
     outputs:
       issue-number: ${{ steps.issue.outputs.issue-number }}
@@ -61,7 +61,7 @@ jobs:
   screenshots:
     name: 📸 Gather screenshots
     needs: call-for-testing
-    environment: "Candidate Branch"
+    environment: "Edge Branch"
     runs-on: ubuntu-latest
     steps:
       - name: 📸 Gather screenshots
