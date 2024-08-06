@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
           update-script: |
             VERSION=$(
-              curl -sL https://api.github.com/repos/signalapp/Signal-Desktop/releases | 
+              curl -sL https://api.github.com/repos/JannisX11/blockbench/releases | 
               jq .  | grep tag_name | grep -v beta | head -n 1 | cut -d'"' -f4 | tr -d 'v'
             )
             sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
