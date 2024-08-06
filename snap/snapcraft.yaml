@@ -6,36 +6,25 @@ description: |
 icon: snap/gui/blockbench_logo.png
 license: GPL-3.0
 
-base: core22
+base: core24
 grade: stable
 confinement: strict
 adopt-info: blockbench-snapcraft
 compression: lzo
 
-architectures:
-  - build-on: amd64
-    build-for: amd64
+platforms:
+  amd64:
+  arm64:
+  armhf:
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET/imlib2:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/imlib2
-  /usr/share/drirc.d:
-    bind: $SNAP/usr/share/drirc.d
-  /usr/lib/$CRAFT_ARCH_TRIPLET/dri:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/dri
-  /usr/share/vulkan:
-    bind: $SNAP/usr/share/vulkan
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
-    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so:
-    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
-    bind-file: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2
 
 apps:
-  blockbench-snapcraft:
+  blockbench:
     extensions: [gnome]
-    command: electron/Blockbench --no-sandbox
+    command: Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
     plugs:
@@ -56,14 +45,9 @@ parts:
   libs:
     plugin: nil
     stage-packages:
-      - giblib1
-      - libimlib2
-      - libspeechd2
-      - mesa-va-drivers
-      - mesa-vulkan-drivers
-      - vulkan-tools
+      - libimlib2t64
 
-  blockbench-snapcraft:
+  blockbench:
     plugin: nil
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
@@ -84,10 +68,8 @@ parts:
       npm install
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
-          --prune=true --out $CRAFT_PART_INSTALL/
-      cd $CRAFT_PART_INSTALL
-      mkdir electron
-      mv Blockbench-linux-*/* electron/
+          --prune=true
+      mv Blockbench-linux-*/* $CRAFT_PART_INSTALL
     build-packages:
       - git
       - sed
