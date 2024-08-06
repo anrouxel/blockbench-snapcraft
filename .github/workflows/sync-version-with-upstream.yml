@@ -1,4 +1,4 @@
-name: 🔄 Sync version with upstream
+name: Update
 
 on:
   # Runs at 10:00 UTC every day
@@ -7,55 +7,39 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  sync-version:
-    name: "Update snapcraft.yaml"
-    environment: "Stable Branch"
+  sync:
+    name: 🔄 Sync version with upstream
+    environment: "Candidate Branch"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: 🔄 Sync version with upstream
+        uses: snapcrafters/ci/sync-version@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Fetch release version
-        run: |
-          VERSION=$(
-            curl -sL https://api.github.com/repos/JannisX11/blockbench/releases | jq '[.[]|{tag_name: .tag_name}][0].tag_name' | tr -d '"'
-          )
-          # IS BETA (true/false)
-          CHANNEL=$(
-            if [[ $VERSION == *"beta"* ]]; then
-              echo "beta"
-            else
-              echo "stable"
-            fi
-          )
+          token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
+          update-script: |
+            VERSION=$(
+              curl -sL https://api.github.com/repos/signalapp/Signal-Desktop/releases | 
+              jq .  | grep tag_name | grep -v beta | head -n 1 | cut -d'"' -f4 | tr -d 'v'
+            )
+            sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
 
-          sed -i 's/^\(version: \).*$/\1'"$VERSION"'/' snap/snapcraft.yaml
-      - name: Check for modified files
-        id: git-check
-        run: |
-          MODIFIED=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
-          echo "modified=$MODIFIED" >> $GITHUB_OUTPUT
-      - name: Commit latest release version
-        if: steps.git-check.outputs.modified == 'true'
-        run: |
-          git config --global user.name ${{ secrets.BOT_USERNAME }}
-          git config --global user.email ${{ secrets.BOT_EMAIL }}
-          git commit -am "Automatic sync to latest release"
-          git push
-    outputs:
-      modified: ${{ steps.git-check.outputs.modified }}
-  call-snap-store-publish-to-candidate:
-    name: "Call"
-    needs: sync-version
-    if: needs.sync-version.outputs.modified == 'true'
-    # Permissions needed by the called workflow
-    permissions:
-      contents: read
-      issues: write
-    secrets:
-      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-    uses: ./.github/workflows/snap-store-publish.yml
-    with:
-      CHANNEL: ${{ needs.sync-version.outputs.channel }}
+            # If the signal-desktop version has changed, bump the dependencies.
+            if ! git diff --quiet --exit-code; then
+              # Fetch the upstream package.json for the fetched version
+              wget -qO package.json https://raw.githubusercontent.com/signalapp/Signal-Desktop/v${VERSION}/package.json
+
+              # Update the @signalapp/ringrtc version if required
+              export RINGRTC_VERSION="$(cat package.json | jq -r '.dependencies."@signalapp/ringrtc"')"
+              sed -i -E "s|ringrtc-[0-9]+\.[0-9]+\.[0-9]+\.tgz|ringrtc-${RINGRTC_VERSION}.tgz|" snap/snapcraft.yaml
+
+              # Update the @signalapp/bettersqlite version if required
+              BETTERSQLITE_VERSION="$(cat package.json | jq -r '.dependencies."@signalapp/better-sqlite3"')"
+              sed -i -E "s|better-sqlite3-[0-9]+\.[0-9]+\.[0-9]+\.tgz|better-sqlite3-${BETTERSQLITE_VERSION}.tgz|" snap/snapcraft.yaml
+
+              rm package.json
+            fi
