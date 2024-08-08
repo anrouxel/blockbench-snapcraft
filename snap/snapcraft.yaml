@@ -27,19 +27,25 @@ apps:
     command: Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
+      # Included temporarily until https://github.com/snapcore/snapcraft-desktop-integration/issues/28
+      # is resolved.
+      NOTIFY_IGNORE_PORTAL: 1
     plugs:
       - desktop
       - desktop-legacy
-      - home
       - opengl
       - x11
-      - unity7
       - wayland
-      - browser-support
-      - network
       - gsettings
       - pulseaudio
+      - browser-support
+      - home
+      - network
       - audio-playback
+      - audio-record
+      - removable-media
+      - unity7
+      - screen-inhibit-control
 
 parts:
   libs:
@@ -57,22 +63,18 @@ parts:
       - libimlib2t64
 
   blockbench-snapcraft:
-    plugin: nil
+    plugin: dump
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
-    override-pull: |
-      craftctl default
-      git checkout "$SNAPCRAFT_PROJECT_VERSION" -b latest
-    build-environment:
-      - PATH: "$PATH:$CRAFT_PART_BUILD/node_modules/.bin"
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
     override-build: |
-      set +u # core20 base does not allow unbound variables !
-      # workaround for build.snapcraft.io builds
-      # https://bugs.launchpad.net/bugs/1886861
-      if [ -n "$http_proxy" ]; then
+      # Setup proxy access where needed
+      if [[ -n "${http_proxy:-}" ]]; then
+        export HTTP_PROXY="${http_proxy:-}"
+        export HTTPS_PROXY="${http_proxy:-}"
         export ELECTRON_GET_USE_PROXY=1
-        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy}"
-        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy}"
+        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
+        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
       npm install
       npm i electron-packager
