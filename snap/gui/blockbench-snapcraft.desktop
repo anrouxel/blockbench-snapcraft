@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=blockbench-snapcraft
+Icon=${SNAP}/meta/gui/blockbench_logo.png
+Categories=Art and design;
+Name=Blockbench
+Comment=Blockbench ${SNAPCRAFT_PROJECT_VERSION}

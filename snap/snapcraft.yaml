@@ -1,0 +1,88 @@
+name: blockbench-snapcraft
+version: 4.10.4
+summary: Blockbench - A boxy 3D model editor
+description: |
+  Blockbench - A boxy 3D model editor
+icon: snap/gui/blockbench_logo.png
+license: GPL-3.0
+
+base: core24
+grade: stable
+confinement: strict
+adopt-info: blockbench-snapcraft
+compression: lzo
+
+platforms:
+  amd64:
+  arm64:
+  armhf:
+
+layout:
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2
+
+apps:
+  blockbench-snapcraft:
+    extensions: [gnome]
+    command: Blockbench --no-sandbox
+    environment:
+      TMPDIR: $XDG_RUNTIME_DIR
+      # Included temporarily until https://github.com/snapcore/snapcraft-desktop-integration/issues/28
+      # is resolved.
+      NOTIFY_IGNORE_PORTAL: 1
+    plugs:
+      - desktop
+      - desktop-legacy
+      - opengl
+      - x11
+      - wayland
+      - gsettings
+      - pulseaudio
+      - browser-support
+      - home
+      - network
+      - audio-playback
+      - audio-record
+      - removable-media
+      - unity7
+      - screen-inhibit-control
+
+parts:
+  libs:
+    plugin: nil
+    override-build: |
+      # Strip the executable stack bit on libde265.so
+      # Only armhf requires this modification, arm64 and amd64 both pass the
+      # automated store validation (i.e review-tools.snap-review)
+      if [ $CRAFT_ARCH_BUILD_FOR = "armhf" ]; then
+        execstack --clear-execstack $SNAPCRAFT_PART_INSTALL/usr/lib/*/libde265.so.*
+      fi
+    build-packages:
+      - execstack
+    stage-packages:
+      - libimlib2t64
+
+  blockbench-snapcraft:
+    plugin: dump
+    source: https://github.com/JannisX11/blockbench.git
+    source-type: git
+    source-tag: v$SNAPCRAFT_PROJECT_VERSION
+    override-build: |
+      # Setup proxy access where needed
+      if [[ -n "${http_proxy:-}" ]]; then
+        export HTTP_PROXY="${http_proxy:-}"
+        export HTTPS_PROXY="${http_proxy:-}"
+        export ELECTRON_GET_USE_PROXY=1
+        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
+        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
+      fi
+      npm install
+      npm i electron-packager
+      npx electron-packager . --overwrite --platform=linux --output=release-build \
+        --prune=true
+      mv Blockbench-linux-*/* $CRAFT_PART_INSTALL
+    build-packages:
+      - git
+      - sed
+    build-snaps:
+      - node/22/stable
