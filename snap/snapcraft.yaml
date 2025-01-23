@@ -28,10 +28,20 @@ platforms:
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2
+  /usr/share/X11/XErrorDB:
+    symlink: $SNAP/gpu-2404/X11/XErrorDB
+
+plugs:
+  gpu-2404:
+    interface: content
+    target: $SNAP/gpu-2404
+    default-provider: mesa-2404
 
 apps:
   blockbench-snapcraft:
     extensions: [gnome]
+    command-chain:
+      - bin/gpu-2404-wrapper
     command: Blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
@@ -56,20 +66,6 @@ apps:
       - screen-inhibit-control
 
 parts:
-  libs:
-    plugin: nil
-    override-build: |
-      # Strip the executable stack bit on libde265.so
-      # Only armhf requires this modification, arm64 and amd64 both pass the
-      # automated store validation (i.e review-tools.snap-review)
-      if [ $CRAFT_ARCH_BUILD_FOR = "armhf" ]; then
-        execstack --clear-execstack $SNAPCRAFT_PART_INSTALL/usr/lib/*/libde265.so.*
-      fi
-    build-packages:
-      - execstack
-    stage-packages:
-      - libimlib2t64
-
   blockbench-snapcraft:
     plugin: dump
     source: https://github.com/JannisX11/blockbench.git
@@ -94,3 +90,28 @@ parts:
       - sed
     build-snaps:
       - node/22/stable
+
+  gpu-2404:
+    after: [blockbench-snapcraft]
+    source: https://github.com/canonical/gpu-snap.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
+    prime:
+    - bin/gpu-2404-wrapper
+
+  libs:
+    after: [blockbench-snapcraft]
+    plugin: nil
+    override-build: |
+      # Strip the executable stack bit on libde265.so
+      # Only armhf requires this modification, arm64 and amd64 both pass the
+      # automated store validation (i.e review-tools.snap-review)
+      if [ $CRAFT_ARCH_BUILD_FOR = "armhf" ]; then
+        execstack --clear-execstack $SNAPCRAFT_PART_INSTALL/usr/lib/*/libde265.so.*
+      fi
+    build-packages:
+      - execstack
+    stage-packages:
+      - libimlib2t64
