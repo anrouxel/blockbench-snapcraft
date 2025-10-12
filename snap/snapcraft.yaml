@@ -13,7 +13,7 @@ source-code: https://github.com/anrouxel/blockbench-snapcraft
 license: GPL-3.0
 adopt-info: blockbench-snapcraft
 icon: snap/gui/blockbench_logo.png
-version: 4.12.6
+version: 5.0.0
 
 base: core24
 grade: stable
