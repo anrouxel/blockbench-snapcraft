@@ -81,6 +81,8 @@ parts:
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
       npm install
+      npm run build-electron
+      tree .
       npm i electron-packager
       npx electron-packager . --overwrite --platform=linux --output=release-build \
         --prune=true
@@ -88,6 +90,7 @@ parts:
     build-packages:
       - git
       - sed
+      - tree
     build-snaps:
       - node/22/stable
 
