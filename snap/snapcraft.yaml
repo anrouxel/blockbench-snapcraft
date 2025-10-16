@@ -42,7 +42,7 @@ apps:
     extensions: [gnome]
     command-chain:
       - bin/gpu-2404-wrapper
-    command: Blockbench --no-sandbox
+    command: blockbench --no-sandbox
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
       # Included temporarily until https://github.com/snapcore/snapcraft-desktop-integration/issues/28
@@ -82,7 +82,6 @@ parts:
       fi
       npm install
       npx electron-builder --linux -c.linux.target=dir
-      ls -l dist-electron/linux-unpacked
       mv dist-electron/linux-unpacked/* $CRAFT_PART_INSTALL
     build-packages:
       - git
@@ -115,5 +114,3 @@ parts:
       - execstack
     stage-packages:
       - libimlib2t64
-
-
