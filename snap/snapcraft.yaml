@@ -82,8 +82,7 @@ parts:
       fi
       npm install
       npx electron-builder --linux -c.linux.target=dir
-      
-      # Déplace les fichiers depuis le répertoire de sortie vers l'installation du snap
+      ls -l dist-electron/linux-unpacked
       mv dist-electron/linux-unpacked/* $CRAFT_PART_INSTALL
     build-packages:
       - git
@@ -116,4 +115,5 @@ parts:
       - execstack
     stage-packages:
       - libimlib2t64
+
 
