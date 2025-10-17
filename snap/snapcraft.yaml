@@ -82,7 +82,7 @@ parts:
       npm install
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
-      mv dist-electron/linux-unpacked/* $CRAFT_PART_INSTALL
+      mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
     build-snaps:
       - node/24/stable
 
@@ -101,3 +101,4 @@ parts:
     plugin: nil
     stage-packages:
       - libimlib2t64
+
