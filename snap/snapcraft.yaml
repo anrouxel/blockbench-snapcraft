@@ -83,7 +83,10 @@ parts:
       npm install
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
+      tree dist-electron/linux-unpacked
       mv dist-electron/linux-unpacked/* $CRAFT_PART_INSTALL
+    build-packages:
+      - tree
     build-snaps:
       - node/24/stable
 
