@@ -23,7 +23,6 @@ compression: lzo
 platforms:
   amd64:
   arm64:
-  armhf:
 
 layout:
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2:
@@ -100,14 +99,5 @@ parts:
   libs:
     after: [blockbench-snapcraft]
     plugin: nil
-    override-build: |
-      # Strip the executable stack bit on libde265.so
-      # Only armhf requires this modification, arm64 and amd64 both pass the
-      # automated store validation (i.e review-tools.snap-review)
-      if [ $CRAFT_ARCH_BUILD_FOR = "armhf" ]; then
-        execstack --clear-execstack $SNAPCRAFT_PART_INSTALL/usr/lib/*/libde265.so.*
-      fi
-    build-packages:
-      - execstack
     stage-packages:
       - libimlib2t64
