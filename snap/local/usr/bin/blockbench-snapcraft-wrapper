@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run the configure hook which sets defaults for any config options
+"${SNAP}/meta/hooks/configure"
+
+# Grab the config options
+tray_icon="$(snapctl get tray-icon)"
+
+# Define an array of command line options
+opts=(
+    # Don't run the chrome sandbox inside the snap environment, rely on AppArmor confinement
+    "--no-sandbox"
+)
+
+# If the the tray icon is enabled, add to the list of command line args
+if [[ "${tray_icon}" == "true" ]]; then
+    opts+=("--use-tray-icon")
+fi
+
+# Until https://issues.angleproject.org/issues/431097618#comment10 is resolved.
+if [[ "$(uname -m)" == "aarch64" ]]; then
+    opts+=("--use-angle=gles")
+fi
+
+# Run blockbench with the gathered arguments
+exec "${SNAP}/opt/Blockbench/blockbench" "${opts[@]}" "$@"

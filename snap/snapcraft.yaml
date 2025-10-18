@@ -12,7 +12,7 @@ issues: https://github.com/anrouxel/blockbench-snapcraft/issues
 source-code: https://github.com/anrouxel/blockbench-snapcraft
 license: GPL-3.0
 adopt-info: blockbench-snapcraft
-icon: snap/gui/blockbench_logo.png
+icon: snap/gui/blockbench-snapcraft.png
 version: 5.0.2
 
 base: core24
@@ -41,7 +41,7 @@ apps:
     extensions: [gnome]
     command-chain:
       - bin/gpu-2404-wrapper
-    command: blockbench --no-sandbox
+    command: usr/bin/blockbench-snapcraft-wrapper
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
       # Included temporarily until https://github.com/snapcore/snapcraft-desktop-integration/issues/28
@@ -71,20 +71,17 @@ parts:
     source-type: git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
     override-build: |
-      # Setup proxy access where needed
-      if [[ -n "${http_proxy:-}" ]]; then
-        export HTTP_PROXY="${http_proxy:-}"
-        export HTTPS_PROXY="${http_proxy:-}"
-        export ELECTRON_GET_USE_PROXY=1
-        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
-        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
-      fi
       npm install
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
-      mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
+      mkdir -p "${CRAFT_PART_INSTALL}/opt"
+      mv dist-electron/linux-*unpacked "${CRAFT_PART_INSTALL}/opt/Blockbench"
     build-snaps:
       - node/24/stable
+    prime:
+      - -opt/Blockbench/chrome-sandbox
+      - -opt/Blockbench/resources/app.asar.unpacked/node_modules/sharp/vendor/lib
+      - -opt/Blockbench/resources/app.asar.unpacked/node_modules/sharp/vendor/include
 
   gpu-2404:
     after: [blockbench-snapcraft]
@@ -102,3 +99,7 @@ parts:
     stage-packages:
       - libimlib2t64
 
+  local-parts:
+    plugin: dump
+    source: ./snap/local
+    source-type: local
