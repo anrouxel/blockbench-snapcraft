@@ -25,8 +25,6 @@ platforms:
   arm64:
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/imlib2
   /usr/share/X11/XErrorDB:
     symlink: $SNAP/gpu-2404/X11/XErrorDB
 
@@ -95,10 +93,3 @@ parts:
       ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
     prime:
     - bin/gpu-2404-wrapper
-
-  libs:
-    after: [blockbench-snapcraft]
-    plugin: nil
-    stage-packages:
-      - libimlib2t64
-
