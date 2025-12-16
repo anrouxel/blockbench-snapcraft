@@ -77,9 +77,6 @@ parts:
         export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
-
-      sed -i '/"type": "module",/d' package.json
-      
       npm install
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
@@ -96,4 +93,3 @@ parts:
       ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
     prime:
     - bin/gpu-2404-wrapper
-
