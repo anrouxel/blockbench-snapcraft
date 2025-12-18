@@ -82,7 +82,7 @@ parts:
       npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
     build-snaps:
-      - node/22/stable
+      - node/24/stable
 
   gpu-2404:
     after: [blockbench-snapcraft]
