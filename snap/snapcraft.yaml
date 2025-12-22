@@ -77,9 +77,8 @@ parts:
         export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
-      npm install
+      npm ci
       npm uninstall electron-color-picker
-      npm install electron-builder@latest --save-dev
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
