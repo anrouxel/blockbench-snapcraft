@@ -68,6 +68,8 @@ parts:
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
+    build-environment:
+      - NODE_OPTIONS: "--no-deprecation"
     override-build: |
       # Setup proxy access where needed
       if [[ -n "${http_proxy:-}" ]]; then
