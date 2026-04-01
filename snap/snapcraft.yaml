@@ -81,6 +81,7 @@ parts:
       export NPM_CONFIG_LOGLEVEL=error
       export NPM_CONFIG_AUDIT=false
       export NPM_CONFIG_FUND=false
+      export NODE_OPTIONS="--no-deprecation"
       
       npm ci
       npm install electron-builder@latest --save-dev
