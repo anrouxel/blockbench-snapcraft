@@ -68,10 +68,6 @@ parts:
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
-    build-environment: |
-      - NPM_CONFIG_LOGLEVEL: error
-      - NPM_CONFIG_AUDIT: false
-      - NPM_CONFIG_FUND: false
     override-build: |
       # Setup proxy access where needed
       if [[ -n "${http_proxy:-}" ]]; then
@@ -81,6 +77,11 @@ parts:
         export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
+
+      export NPM_CONFIG_LOGLEVEL=error
+      export NPM_CONFIG_AUDIT=false
+      export NPM_CONFIG_FUND=false
+      
       npm ci
       npm install electron-builder@latest --save-dev
       npm uninstall electron-color-picker
