@@ -68,24 +68,10 @@ parts:
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
     source-tag: v$SNAPCRAFT_PROJECT_VERSION
-    override-build: |
-      # Setup proxy access where needed
-      if [[ -n "${http_proxy:-}" ]]; then
-        export HTTP_PROXY="${http_proxy:-}"
-        export HTTPS_PROXY="${http_proxy:-}"
-        export ELECTRON_GET_USE_PROXY=1
-        export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
-        export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
-      fi
-
-      export NPM_CONFIG_LOGLEVEL=error
-      export NPM_CONFIG_AUDIT=false
-      export NPM_CONFIG_FUND=false
-      export NODE_OPTIONS="--no-deprecation"
-      
-      npm ci
-      npm install electron-builder@latest --save-dev
-      npm uninstall electron-color-picker
+    build-environment:
+      - ELECTRON_GET_USE_PROXY: "1"
+    override-build: |      
+      npm install
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
