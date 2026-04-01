@@ -15,7 +15,7 @@ adopt-info: blockbench-snapcraft
 icon: snap/gui/blockbench_logo.png
 version: 5.1.1
 
-base: core24
+base: core26
 grade: stable
 confinement: strict
 compression: lzo
