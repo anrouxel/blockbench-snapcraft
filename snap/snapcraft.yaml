@@ -78,6 +78,8 @@ parts:
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+      nvm install --lts
+      nvm use --lts
       node --version
       npm --version
       npm install
