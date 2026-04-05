@@ -81,8 +81,11 @@ parts:
       node --version
       npm --version
       npm ci
+      npm ls --json
       npm uninstall electron-color-picker
+      npm ls --json
       npm run build-electron
+      npm ls --json
       npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
     build-snaps:
