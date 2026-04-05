@@ -89,6 +89,8 @@ parts:
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
+    build-packages:
+      - curl
 
   gpu-2404:
     after: [blockbench-snapcraft]
