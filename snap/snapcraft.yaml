@@ -77,16 +77,14 @@ parts:
         export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
-      export NPM_CONFIG_UPDATE_NOTIFIER=false
       node --version
       npm --version
-      npm ci
-      npm uninstall electron-color-picker
+      npm install
       npm run build-electron
       DEBUG=electron-builder npx electron-builder --linux -c.linux.target=dir
       mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
     build-snaps:
-      - node/22/stable
+      - node/24/stable
 
   gpu-2404:
     after: [blockbench-snapcraft]
