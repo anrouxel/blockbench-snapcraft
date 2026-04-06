@@ -25,7 +25,7 @@ platforms:
   arm64:
 
 apps:
-  blockbench:
+  blockbench-snapcraft:
     extensions: [gnome]
     command: usr/bin/blockbench-wrapper
     environment:
@@ -45,7 +45,7 @@ apps:
       - screen-inhibit-control
 
 parts:
-  blockbench:
+  blockbench-snapcraft:
     plugin: dump
     source: https://github.com/JannisX11/blockbench.git
     source-type: git
@@ -93,7 +93,7 @@ parts:
 
   gpu-2404:
     after:
-      - blockbench
+      - blockbench-snapcraft
       - local-parts
     source: https://github.com/canonical/gpu-snap.git
     plugin: dump
