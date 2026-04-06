@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Terminal=false
-Exec=blockbench-snapcraft
+Exec=blockbench --no-sandbox %U
 Icon=${SNAP}/meta/gui/blockbench_logo.png
 Categories=Art and design;
 Name=Blockbench

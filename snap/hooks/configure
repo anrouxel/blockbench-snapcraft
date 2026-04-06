@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# On Fedora $SNAP is under /var and there is some magic to map it to /snap.
+# We need to handle that case and reset $SNAP
+SNAP="${SNAP//\/var\/lib\/snapd/}"
+
+enable_gpu="$(snapctl get enable-gpu)"
+if [[ -z "$enable_gpu" ]]; then
+    snapctl set enable-gpu=false
+fi

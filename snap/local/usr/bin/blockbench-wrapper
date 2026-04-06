@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run the configure hook which sets defaults for any config options
+"${SNAP}/meta/hooks/configure"
+
+# Grab the config options
+enable_gpu="$(snapctl get enable-gpu)"
+
+# Define an array of command line options
+opts=(
+    # Don't run the chrome sandbox inside the snap environment, rely on AppArmor confinement
+    "--no-sandbox"
+)
+
+# Until https://issues.angleproject.org/issues/431097618#comment10 is resolved.
+if [[ "$(uname -m)" == "aarch64" ]]; then
+    opts+=("--use-angle=gles")
+fi
+
+# If the rendering device string is 'llvmpipe' then it's likely that the
+# app will crash with hardware acceleration enabled.
+# See: https://github.com/electron/electron/issues/48321
+# See: https://github.com/snapcrafters/signal-desktop/issues/422
+if [[ "${enable_gpu}" != "true" ]]; then
+    opts+=("--disable-gpu")
+fi
+
+# Run blockbench with the gathered arguments
+exec "${SNAP}/opt/blockbench/blockbench" "${opts[@]}" "$@"
