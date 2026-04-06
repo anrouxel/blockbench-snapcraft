@@ -24,32 +24,15 @@ platforms:
   amd64:
   arm64:
 
-layout:
-  /usr/share/X11/XErrorDB:
-    symlink: $SNAP/gpu-2404/X11/XErrorDB
-
-plugs:
-  gpu-2404:
-    interface: content
-    target: $SNAP/gpu-2404
-    default-provider: mesa-2404
-
 apps:
   blockbench-snapcraft:
     extensions: [gnome]
-    command-chain:
-      - bin/gpu-2404-wrapper
-    command: blockbench --no-sandbox
+    command: usr/bin/blockbench-wrapper
     environment:
       TMPDIR: $XDG_RUNTIME_DIR
-      # Included temporarily until https://github.com/snapcore/snapcraft-desktop-integration/issues/28
-      # is resolved.
-      NOTIFY_IGNORE_PORTAL: 1
     plugs:
       - desktop
-      - desktop-legacy
       - opengl
-      - x11
       - wayland
       - gsettings
       - pulseaudio
@@ -59,7 +42,6 @@ apps:
       - audio-playback
       - audio-record
       - removable-media
-      - unity7
       - screen-inhibit-control
 
 parts:
@@ -77,27 +59,44 @@ parts:
         export GLOBAL_AGENT_HTTP_PROXY="${http_proxy:-}"
         export GLOBAL_AGENT_HTTPS_PROXY="${http_proxy:-}"
       fi
+
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+
       set +u
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
       nvm install --lts
       nvm use --lts
       set -u
+
       npm ci
       npm uninstall electron-color-picker
+
       npm run build-electron
       npx electron-builder --linux -c.linux.target=dir
-      mv dist-electron/linux*-unpacked/* $CRAFT_PART_INSTALL
+      
+      mkdir -p $CRAFT_PART_INSTALL/opt
+      mv dist-electron/linux*-unpacked $CRAFT_PART_INSTALL/opt/blockbench
     build-packages:
       - curl
+    stage-packages:
+      # Needed for non-gpu accelerated workaround in wrapper script.
+      # See: https://github.com/electron/electron/issues/48321
+      - mesa-utils
+    prime:
+      - -opt/blockbench/chrome-sandbox
+
+  local-parts:
+    plugin: dump
+    source: ./snap/local
+    source-type: local
 
   gpu-2404:
-    after: [blockbench-snapcraft]
+    after:
+      - blockbench-snapcraft
+      - local-parts
     source: https://github.com/canonical/gpu-snap.git
     plugin: dump
     override-prime: |
       craftctl default
       ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
-    prime:
-    - bin/gpu-2404-wrapper

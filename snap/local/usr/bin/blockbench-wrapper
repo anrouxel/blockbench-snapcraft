@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run the configure hook which sets defaults for any config options
+"${SNAP}/meta/hooks/configure"
+
+# Define an array of command line options
+opts=(
+    # Don't run the chrome sandbox inside the snap environment, rely on AppArmor confinement
+    "--no-sandbox"
+)
+
+# Run blockbench with the gathered arguments
+exec "${SNAP}/opt/blockbench/blockbench" "${opts[@]}" "$@"
